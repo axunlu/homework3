@@ -1,6 +1,7 @@
 import unittest
 from function import Number, Fraction, Expression, CustomMathError
 
+
 class TestMathFunctions(unittest.TestCase):
     def test_number_initialization(self):
         # Test 1: Initialize Number with max value
@@ -65,12 +66,11 @@ class TestMathFunctions(unittest.TestCase):
         result = f.calculate_fractions()
         self.assertEqual(str(result), "1")
 
-
-
         # Test 13: Zero divided by a number
         f = Fraction(Number(nums=(0, 0, 1)), Number(nums=(5, 0, 1)), ' % ')
         result = f.calculate_fractions()
         self.assertEqual(str(result), "0")
+
 
 if __name__ == '__main__':
     unittest.main()
