@@ -78,3 +78,56 @@ class Number:
     def __float__(self):
         """将Number对象转换为浮点数"""
         return self.integer + self.numerator / self.denominator
+
+
+class Fraction:
+    def __init__(self, f1: Number, f2: Number, op: str):
+        """
+        初始化一个Fraction对象，表示两个Number对象之间的运算
+        :param f1: 第一个Number对象
+        :param f2: 第二个Number对象
+        :param op: 运算符
+        """
+        if isinstance(f1, Number) and isinstance(f2, Number):
+            self.f1 = f1
+            self.f2 = f2
+        else:
+            raise CustomMathError("参数必须是Number类型。")
+        if op in [' + ', ' - ', ' * ', ' % ']:
+            self.op = op
+        else:
+            raise CustomMathError("操作符必须是' + ', ' - ', ' * ', 或 ' % '之一。")
+
+    def calculate_fractions(self):
+        """执行分数计算"""
+        try:
+            if self.op == ' + ':
+                # 加法运算
+                denominator = self.f1.denominator * self.f2.denominator
+                numerator = (self.f1.integer * self.f1.denominator + self.f1.numerator) * self.f2.denominator \
+                            + (self.f2.integer * self.f2.denominator + self.f2.numerator) * self.f1.denominator
+                result = Number(nums=(0, numerator, denominator))
+            elif self.op == ' - ':
+                # 减法运算
+                denominator = self.f1.denominator * self.f2.denominator
+                numerator = (self.f1.integer * self.f1.denominator + self.f1.numerator) * self.f2.denominator \
+                            - (self.f2.integer * self.f2.denominator + self.f2.numerator) * self.f1.denominator
+                result = Number(nums=(0, numerator, denominator))
+            elif self.op == ' * ':
+                # 乘法运算
+                denominator = self.f1.denominator * self.f2.denominator
+                numerator = (self.f1.numerator + self.f1.integer * self.f1.denominator) \
+                            * (self.f2.numerator + self.f2.integer * self.f2.denominator)
+                result = Number(nums=(0, numerator, denominator))
+            elif self.op == ' % ':
+                # 除法运算
+                if float(self.f2) == 0:
+                    raise CustomMathError("除数不能为零。")
+                denominator = self.f1.denominator * (self.f2.numerator + self.f2.integer * self.f2.denominator)
+                numerator = (self.f1.numerator + self.f1.integer * self.f1.denominator) * self.f2.denominator
+                result = Number(nums=(0, numerator, denominator))
+
+            result.reduce_fraction()  # 简化结果
+            return result
+        except OverflowError:
+            raise CustomMathError("计算结果超出可表示范围")
