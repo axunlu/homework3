@@ -412,3 +412,19 @@ class Expression:
         self.generate_expressions()  # 生成表达式
         self.randomly_generate_questions()  # 随机生成问题
         return self.questions, self.answers  # 返回生成的问题和答案
+
+
+# 测试代码
+if __name__ == "__main__":
+    try:
+        # 创建一个Expression对象，设置最大值为10，生成5个问题
+        exp = Expression(10, 5)
+        # 运行表达式生成过程
+        questions, answers = exp.run()
+        # 打印生成的问题和答案
+        for q, a in zip(questions, answers):
+            print(f"问题: {q}")
+            print(f"答案: {a}")
+            print()
+    except CustomMathError as e:
+        print(f"发生错误: {e}")
